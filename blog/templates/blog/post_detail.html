@@ -1,0 +1,25 @@
+<!--we need to tell this file where we are getting the base template from -->
+{% extends 'blog/base.html' %}
+
+<!--we need to say that this is the block content we want to base.html page to load-->
+{% block content %}
+
+    
+        <article class="post">
+            <aside class="actions">
+                {% if user.is_authenticated %}
+                    <a class="btn btn-secondary" href="{% url 'post_edit' pk=post.pk %}">
+                        {% include './icons/pencil-fill.svg' %}
+                    </a>
+                {% endif %}
+            </aside>
+            {% if post.published_date %}
+                <time class="date">published: {{post.published_date}} </time>
+            {% endif %}
+            <h2>{{post.title}}</h2>
+            <p>Author: {{post.author}}</p>
+            <p>{{post.text|linebreaksbr}}</p>
+        </article>
+   
+
+{% endblock %}
