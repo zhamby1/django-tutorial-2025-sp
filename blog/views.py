@@ -7,6 +7,7 @@ from django.utils import timezone
 from .models import Post
 from .forms import PostForm
 from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 #views is used to handle requests and provide a response
@@ -29,6 +30,7 @@ def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     return render(request, 'blog/post_detail.html', {'post':post})
 
+@login_required
 def post_new(request):
     #this is a HTTP method NOT the Post class/model/tabel
     #POST in HTTP means to add something to a database
@@ -40,7 +42,6 @@ def post_new(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
-            post.published_date = timezone.now()
             post.save()
             return redirect('post_detail', pk=post.pk)
     else:
@@ -48,7 +49,7 @@ def post_new(request):
     return render(request, 'blog/post_edit.html', {'form': form})
 
 
-
+@login_required
 def post_edit(request, pk):
     #grab post to edit
     post = get_object_or_404(Post, pk=pk)
@@ -58,10 +59,32 @@ def post_edit(request, pk):
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
-            post.published_date = timezone.now()
             post.save()
             return redirect('post_detail', pk=post.pk)
     else:
         #pre-fill out text boxes with all the info from our database entry for this particular post
         form = PostForm(instance=post)
     return render(request, 'blog/post_edit.html', {'form': form})
+
+@login_required
+def post_draft_list(request):
+    posts = Post.objects.filter(published_date__isnull=True).order_by('created_date')
+
+    return render(request, 'blog/post_draft_list.html', {'posts' : posts})
+
+#the cool thing about post publish is we do not need a new webpage
+@login_required
+def post_publish(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    #hey if this is a post request, then give it a timestamp
+    if request.method == 'POST':
+        #give it a publish date.
+        post.publish()
+    return redirect('post_detail', pk=pk)
+
+@login_required
+def post_remove(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if request.method == 'POST':
+        post.delete()
+    return redirect('post_list')

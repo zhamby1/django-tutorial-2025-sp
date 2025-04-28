@@ -16,6 +16,8 @@ class Post(models.Model):
 
     def publish(self):
         self.published_date = timezone.now()
+        #we now need to save it to the DB
+        self.save()
     
     #we will create a function that when we are in the python interpreter and call the name Post, it returns the title as a string
     def __str__(self):

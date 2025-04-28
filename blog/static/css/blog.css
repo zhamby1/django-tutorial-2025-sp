@@ -43,6 +43,12 @@ h4 {
     margin-right: 20px;
 }
 
+/* .top-menu .logout{
+    background-color: #FFFFFF;
+    color: #C25100;
+    border-color: #FFFFFF;
+
+} */
 .post {
     margin-bottom: 70px;
 }
@@ -63,9 +69,11 @@ h4 {
     background: none;
     border-color: #C25100;
     margin-left: 15px;
+    margin-bottom: 10px;
 }
 
 .btn-secondary:hover {
     color: #FFFFFF;
     background-color: #C25100;
 }
+

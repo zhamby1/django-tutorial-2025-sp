@@ -1,0 +1,31 @@
+<!--we need to tell this file where we are getting the base template from -->
+{% extends 'blog/base.html' %}
+
+<!--we need to say that this is the block content we want to base.html page to load-->
+<!--we will add a form error popup if the form has wrong username and password-->
+{% block content %}
+    {% if form.errors %}
+        <p>Your usename and password did not match</p>
+    {% endif %}
+
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>{{ form.username.label_tag }}</td>
+                <td>{{ form.username }}</td>
+            </tr>
+            <tr>
+                <td> {{ form.password.label_tag }}</td>
+                <td> {{ form.password }} </td>
+            </tr>
+        </table>
+
+        <input type="submit" value="login" />
+        <input type="hidden" name="next" value="{{ next }}" />
+    </form>
+    
+   
+   
+
+{% endblock %}
