@@ -21,10 +21,10 @@
                 {% include './icons/file-earmark-plus.svg' %}
             </a>
             <a href="{% url 'post_draft_list' %}" class="top-menu">Drafts</a>
-            <form method="post" action="{% url 'logout' %}" class="top-menu">{% csrf_token %}
-                <button type="submit" class="btn btn-primary" style="color: white;background-color: #C25100; border-color: white;">Logout</button>
-
-            </form>
+                <a button href="/logout" class="top-menu" style="background: none; border: none;">
+                    <i>{% include './icons/door-open-fill.svg' %}</i>
+                </button>
+            </a>
         {% else %}
             <a href="{% url 'login' %}" class="top-menu">Login</a>
         {% endif %}

@@ -1,0 +1,16 @@
+<!--we need to tell this file where we are getting the base template from -->
+{% extends 'blog/base.html' %}
+
+<!--we need to say that this is the block content we want to base.html page to load-->
+{% block content %}
+
+<h2>Sign Up</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form }}
+    <br>
+    <button type="submit" class="btn btn-secondary">Sign Up</button>
+</form>
+
+
+{% endblock %}
